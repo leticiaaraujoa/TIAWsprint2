@@ -1,13 +1,11 @@
 const usuarioId = 1;
-const apiUrl = 'http://localhost:3000'; // URL do json-server
+const apiUrl = 'http://localhost:3000'; 
 
 async function carregarDados() {
   try {
-    // Busca o usuário
     const usuario = await fetch(`${apiUrl}/usuarios/${usuarioId}`).then(res => res.json());
     document.getElementById("nome-usuario").textContent = usuario.nome;
 
-    // Busca os comentários do usuário
     const comentarios = await fetch(`${apiUrl}/comentarios?usuarioId=${usuarioId}`).then(res => res.json());
     const container = document.getElementById("lista-comentarios");
     container.innerHTML = "";
@@ -19,7 +17,6 @@ async function carregarDados() {
       div.className = "comentario";
       div.setAttribute("data-id", comentario.id);
 
-      // ✅ Usando crases corretamente para interpolar
       div.innerHTML = `
         <h3>${noticia.titulo}</h3>
         <p class="texto">${comentario.texto}</p>
@@ -39,7 +36,6 @@ async function carregarDados() {
 }
 
 function adicionarListeners() {
-  // Botão Editar
   document.querySelectorAll(".btn-editar").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const div = e.target.closest(".comentario");
@@ -60,7 +56,6 @@ function adicionarListeners() {
     });
   });
 
-  // Botão Excluir
   document.querySelectorAll(".btn-excluir").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const div = e.target.closest(".comentario");
