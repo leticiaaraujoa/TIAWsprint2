@@ -12,6 +12,18 @@
       "titulo": "Descobertas recentes sobre autismo e memória",
       "conteudo": "Texto completo da notícia...",
       "data_publicacao": "2025-05-10T10:00:00Z"
+    },
+    {
+      "id": 102,
+      "titulo": "Inclusão escolar: desafios e soluções",
+      "conteudo": "A inclusão escolar é tema recorrente...",
+      "data_publicacao": "2025-04-22T08:30:00Z"
+    },
+    {
+      "id": 103,
+      "titulo": "Tecnologia assistiva no cotidiano",
+      "conteudo": "Dispositivos de apoio estão mudando vidas...",
+      "data_publicacao": "2025-03-15T15:00:00Z"
     }
   ],
   "comentarios": [
@@ -21,6 +33,34 @@
       "noticiaId": 101,
       "texto": "Fico feliz que estejam falando sobre isso! A ciência precisa ouvir mais vozes reais.",
       "data_hora": "2025-05-18T14:32:00Z"
+    },
+    {
+      "id": 2,
+      "usuarioId": 1,
+      "noticiaId": 102,
+      "texto": "A inclusão ainda precisa melhorar muito nas escolas públicas.",
+      "data_hora": "2025-05-20T10:12:00Z"
+    },
+    {
+      "id": 3,
+      "usuarioId": 1,
+      "noticiaId": 103,
+      "texto": "Uso tecnologia assistiva com meu filho e realmente faz toda diferença.",
+      "data_hora": "2025-05-22T09:45:00Z"
+    },
+    {
+      "id": 4,
+      "usuarioId": 1,
+      "noticiaId": 102,
+      "texto": "Faltam formações adequadas para os professores lidarem com diversidade.",
+      "data_hora": "2025-05-25T17:22:00Z"
+    },
+    {
+      "id": 5,
+      "usuarioId": 1,
+      "noticiaId": 101,
+      "texto": "Muito bom ver pesquisas avançando nessa área!",
+      "data_hora": "2025-05-26T13:05:00Z"
     }
   ]
 }
