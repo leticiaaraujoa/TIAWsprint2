@@ -1,5 +1,5 @@
 const usuarioId = 1;
-const apiUrl = 'http://localhost:3000'; 
+const apiUrl = 'http://localhost:3000';
 
 async function carregarDados() {
   try {
@@ -7,12 +7,17 @@ async function carregarDados() {
     document.getElementById("nome-usuario").textContent = usuario.nome;
 
     const comentarios = await fetch(`${apiUrl}/comentarios?usuarioId=${usuarioId}`).then(res => res.json());
+
+    const noticiasPromises = comentarios.map(c => 
+      fetch(`${apiUrl}/noticias/${c.noticiaId}`).then(res => res.json())
+    );
+    const noticias = await Promise.all(noticiasPromises);
+
     const container = document.getElementById("lista-comentarios");
     container.innerHTML = "";
 
-    for (const comentario of comentarios) {
-      const noticia = await fetch(`${apiUrl}/noticias/${comentario.noticiaId}`).then(res => res.json());
-
+    comentarios.forEach((comentario, i) => {
+      const noticia = noticias[i];
       const div = document.createElement("div");
       div.className = "comentario";
       div.setAttribute("data-id", comentario.id);
@@ -26,50 +31,39 @@ async function carregarDados() {
       `;
 
       container.appendChild(div);
-    }
+    });
 
-    adicionarListeners();
   } catch (err) {
     console.error("Erro ao carregar dados:", err);
     document.getElementById("lista-comentarios").innerHTML = "<p>Erro ao carregar comentários.</p>";
   }
 }
 
-function adicionarListeners() {
-  document.querySelectorAll(".btn-editar").forEach(btn => {
-    btn.addEventListener("click", async (e) => {
-      const div = e.target.closest(".comentario");
-      const id = div.getAttribute("data-id");
-      const p = div.querySelector(".texto");
+document.getElementById("lista-comentarios").addEventListener("click", async (e) => {
+  const btn = e.target;
+  const div = btn.closest(".comentario");
+  const id = div?.getAttribute("data-id");
 
-      const novoTexto = prompt("Editar comentário:", p.textContent);
-      if (novoTexto && novoTexto.trim() !== "") {
-        await fetch(`${apiUrl}/comentarios/${id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ texto: novoTexto })
-        });
-        p.textContent = novoTexto;
-      }
-    });
-  });
+  if (btn.classList.contains("btn-editar")) {
+    const p = div.querySelector(".texto");
+    const novoTexto = prompt("Editar comentário:", p.textContent);
+    if (novoTexto && novoTexto.trim() !== "") {
+      await fetch(`${apiUrl}/comentarios/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto: novoTexto })
+      });
+      p.textContent = novoTexto;
+    }
+  }
 
-  document.querySelectorAll(".btn-excluir").forEach(btn => {
-    btn.addEventListener("click", async (e) => {
-      const div = e.target.closest(".comentario");
-      const id = div.getAttribute("data-id");
-
-      const confirmar = confirm("Tem certeza que deseja excluir este comentário?");
-      if (confirmar) {
-        await fetch(`${apiUrl}/comentarios/${id}`, {
-          method: "DELETE"
-        });
-        div.remove();
-      }
-    });
-  });
-}
+  if (btn.classList.contains("btn-excluir")) {
+    const confirmar = confirm("Tem certeza que deseja excluir este comentário?");
+    if (confirmar) {
+      await fetch(`${apiUrl}/comentarios/${id}`, { method: "DELETE" });
+      div.remove();
+    }
+  }
+});
 
 carregarDados();
